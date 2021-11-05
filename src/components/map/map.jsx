@@ -6,6 +6,7 @@ import MapGL, {
     ScaleControl,
     GeolocateControl
 } from 'react-map-gl';
+import PlaceInfo from './place-info';
 
 import 'mapbox-gl/dist/mapbox-gl.css';
 import './map.css';
@@ -45,8 +46,8 @@ const Map = () => {
                         closeOnClick={false}
                         onClose={setPopupInfo}
                     >
-                        {/*<CityInfo info={popupInfo} />*/}
-                        blah-blah
+                        <PlaceInfo {...popupInfo} />
+                        {/*blah-blah*/}
                     </Popup>
                 )}
             </MapGL>

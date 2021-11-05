@@ -1,0 +1,8 @@
+.place-info {
+    font-family: sans-serif;
+
+    &__title {
+        font-size: 32px;
+        line-height: 1.25;
+    }
+}
