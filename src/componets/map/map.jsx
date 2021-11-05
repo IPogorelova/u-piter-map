@@ -1,5 +1,11 @@
-import React, { useRef, useEffect, useState } from 'react';
-import mapboxgl from 'mapbox-gl';
+import React, { useState } from 'react';
+import MapGL, {
+    Popup,
+    NavigationControl,
+    FullscreenControl,
+    ScaleControl,
+    GeolocateControl
+} from 'react-map-gl';
 
 import 'mapbox-gl/dist/mapbox-gl.css';
 import './map.css';
@@ -10,31 +16,42 @@ import items from './items';
 
 const MAPBOX_TOKEN = 'pk.eyJ1IjoibmUtdHVtIiwiYSI6ImNrcno3ZGR4ZjE3aTQycHM3ZW9oMWUzMDMifQ.lVSIEZ859eMV2sR3cqhhqA';
 
-
 const Map = () => {
-    const mapContainerRef = useRef(null);
+    const [viewport, setViewport] = React.useState({
+        latitude: 59.93951718539124,
+        longitude: 30.31572335413375,
+        zoom: 11
+    });
+    const [popupInfo, setPopupInfo] = useState(null);
 
-    const [map, setMap] = useState(null);
+    return (
+        <div id="map">
+            <MapGL
+                {...viewport}
+                mapStyle="mapbox://styles/mapbox/dark-v9"
+                width="100%"
+                height="100%"
+                onViewportChange={setViewport}
+                mapboxApiAccessToken={MAPBOX_TOKEN}
+            >
+                {items && <Markers items={items} onClick={setPopupInfo}/>}
 
-    useEffect(() => {
-        const map = new mapboxgl.Map({
-            container: mapContainerRef.current,
-            accessToken: MAPBOX_TOKEN,
-            style: "mapbox://styles/mapbox/streets-v11",
-            // Empire State Building [lng, lat]
-            center: [30.31572335413375, 59.93951718539124],
-            zoom: 11,
-        })
-        map.addControl(new mapboxgl.NavigationControl(), "top-right");
-
-        setMap(map);
-
-        return () => map.remove();
-    }, [])
-
-    return <div ref={mapContainerRef} className={'map'}>
-        {items && map && <Markers map={map} places={items} />}
-    </div>
-};
+                {popupInfo && (
+                    <Popup
+                        tipSize={5}
+                        anchor="top"
+                        latitude={popupInfo.coordinates[0]}
+                        longitude={popupInfo.coordinates[1]}
+                        closeOnClick={false}
+                        onClose={setPopupInfo}
+                    >
+                        {/*<CityInfo info={popupInfo} />*/}
+                        blah-blah
+                    </Popup>
+                )}
+            </MapGL>
+        </div>
+    )
+}
 
 export default Map;

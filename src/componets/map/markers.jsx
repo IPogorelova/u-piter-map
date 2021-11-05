@@ -1,29 +1,35 @@
-import React, { useRef, useEffect } from 'react';
-import mapboxgl from 'mapbox-gl';
+import React from 'react';
+import { Marker } from 'react-map-gl';
 
-const Marker = ({ map, place }) => {
-    const markerRef = useRef();
+const SIZE = 20;
 
-    useEffect(() => {
-        const marker = new mapboxgl.Marker(markerRef)
-            .setLngLat([place.coordinates[1], place.coordinates[0]])
-            .addTo(map);
+const ICON = `M20.2,15.7L20.2,15.7c1.1-1.6,1.8-3.6,1.8-5.7c0-5.6-4.5-10-10-10S2,4.5,2,10c0,2,0.6,3.9,1.6,5.4c0,0.1,0.1,0.2,0.2,0.3
+  c0,0,0.1,0.1,0.1,0.2c0.2,0.3,0.4,0.6,0.7,0.9c2.6,3.1,7.4,7.6,7.4,7.6s4.8-4.5,7.4-7.5c0.2-0.3,0.5-0.6,0.7-0.9
+  C20.1,15.8,20.2,15.8,20.2,15.7z`;
 
-        return () => marker.remove();
-    })
-
-    return <div ref={markerRef} className={'marker'} onClick={() => alert('hi!')} />
-};
-
-const Markers = ({ map, places }) => {
+const Markers = ({ items, onClick }) => {
     return (
         <>
-            {places && places.map(place => (
+            {items && items.map(place => (
                 <Marker
                     key={place.title.split(' ').join('-')}
-                    map={map}
-                    place={place}
-                />
+                    latitude={place.coordinates[0]}
+                    longitude={place.coordinates[1]}
+                >
+                    <svg
+                        height={SIZE}
+                        viewBox="0 0 24 24"
+                        style={{
+                            cursor: 'pointer',
+                            fill: 'plum',
+                            stroke: 'none',
+                            transform: `translate(${-SIZE / 2}px,${-SIZE}px)`
+                        }}
+                        onClick={() => onClick(place)}
+                    >
+                        <path d={ICON} />
+                    </svg>
+                </Marker>
             ))}
         </>
     );
