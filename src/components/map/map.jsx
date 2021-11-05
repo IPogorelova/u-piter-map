@@ -47,7 +47,6 @@ const Map = () => {
                         onClose={setPopupInfo}
                     >
                         <PlaceInfo {...popupInfo} />
-                        {/*blah-blah*/}
                     </Popup>
                 )}
             </MapGL>
