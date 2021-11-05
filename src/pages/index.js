@@ -1,5 +1,5 @@
 import * as React from "react"
-import Map from "../componets/map/map";
+import Map from "../components/map/map";
 
 import '../index.css'
 
