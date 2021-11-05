@@ -12,18 +12,21 @@ const Marker = ({ map, place }) => {
         return () => marker.remove();
     })
 
-    return <div ref={markerRef} />
+    return <div ref={markerRef} className={'marker'} onClick={() => alert('hi!')} />
 };
 
 const Markers = ({ map, places }) => {
     return (
         <>
-            {places &&
-            places.map(place => (
-                <Marker key={place.title.split(' ').join('-')} map={map} place={place} />
+            {places && places.map(place => (
+                <Marker
+                    key={place.title.split(' ').join('-')}
+                    map={map}
+                    place={place}
+                />
             ))}
         </>
     );
 };
-
 export default Markers;
+
